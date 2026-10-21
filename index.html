@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Neon Hunters · Vergelijkingen</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#1a0b3b;--bg2:#3a0f55;--card:rgba(255,255,255,.08);--tx:#fff;--mut:#cbb8ff;--pink:#ff3d9a;--cyan:#28e0ff;--yel:#ffd84d;--ok:#3dffb0;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg1:#fdeaff;--bg2:#e3d7ff;--card:rgba(255,255,255,.75);--tx:#2a1253;--mut:#6b4fb0;--pink:#e0207f;--cyan:#0a9ec0;--ok:#0a9a64}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 0,var(--bg2),var(--bg1) 70%) fixed;color:var(--tx);font-family:Nunito,system-ui,sans-serif;font-weight:600}
+.w{max-width:560px;margin:auto;padding:14px}
+h1,h2,.bg{font-family:Bungee,Impact,sans-serif;font-weight:400;margin:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px}
+.pill{background:var(--card);border:1px solid rgba(255,255,255,.18);border-radius:99px;padding:6px 12px}
+.bar{height:8px;background:var(--card);border-radius:9px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--cyan));transition:width .5s}
+.card{background:var(--card);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:16px;margin:12px 0;backdrop-filter:blur(6px)}
+.steps{display:flex;gap:6px}.steps div{flex:1;text-align:center;font-size:11px;padding:6px 2px;border-radius:12px;background:var(--card);color:var(--mut)}
+.steps .on{background:var(--pink);color:#fff;box-shadow:0 0 14px var(--pink)}.steps .dn{background:var(--ok);color:#06231a}
+.demon{display:flex;align-items:center;gap:12px}.demon .e{font-size:46px;transition:transform .3s}.demon.hit .e{animation:sh .4s}
+@keyframes sh{25%{transform:translateX(-8px) rotate(-10deg)}75%{transform:translateX(8px) rotate(10deg)}}
+.hp{flex:1}.hp small{color:var(--mut)}.segs{display:flex;gap:4px;margin-top:4px}.segs i{flex:1;height:10px;border-radius:5px;background:var(--pink)}.segs i.x{background:rgba(255,255,255,.15)}
+.board .ln{font-size:20px;padding:6px 0;color:var(--mut);animation:in .4s}.board .ln:last-child{color:var(--yel);font-size:26px;text-shadow:0 0 12px rgba(255,216,77,.5)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.q{font-size:17px;margin-bottom:10px;line-height:1.4}.q b{color:var(--cyan)}
+.opt{display:block;width:100%;margin:8px 0;padding:14px;border-radius:16px;border:2px solid var(--cyan);background:transparent;color:var(--tx);font:800 18px Nunito,sans-serif;cursor:pointer}
+.opt:active{transform:scale(.98)}.opt.no{opacity:.35;border-color:var(--mut);text-decoration:line-through}.opt.yes{background:var(--ok);color:#06231a;border-color:var(--ok)}
+.inp{display:flex;align-items:center;gap:8px;font-size:22px;flex-wrap:wrap}.inp input{width:84px;padding:10px;border-radius:12px;border:2px solid var(--cyan);background:rgba(0,0,0,.25);color:var(--tx);font:800 20px Nunito,sans-serif;text-align:center}
+.btn{border:0;border-radius:99px;padding:13px 22px;font:400 16px Bungee,sans-serif;color:#fff;background:linear-gradient(90deg,var(--pink),#9b5cff);box-shadow:0 0 18px rgba(255,61,154,.5);cursor:pointer}
+.btn.g{background:transparent;border:2px solid var(--yel);color:var(--yel);box-shadow:none;font-size:14px;padding:10px 16px}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:10px}
+.fb{margin-top:10px;padding:12px;border-radius:14px;font-size:16px;animation:in .3s}.fb.ok{background:rgba(61,255,176,.18);border:1px solid var(--ok)}.fb.try{background:rgba(255,216,77,.15);border:1px solid var(--yel)}.fb.hp2{background:rgba(40,224,255,.15);border:1px solid var(--cyan)}
+.c{position:fixed;top:-30px;font-size:26px;pointer-events:none;animation:f 1.8s linear forwards;z-index:9}
+@keyframes f{to{transform:translateY(110vh) rotate(360deg);opacity:.2}}
+.center{text-align:center}.big{font-size:64px}
+.sub{color:var(--mut);line-height:1.5}
+</style>
+</head>
+<body><div class="w" id="app"></div>
+<script>
+const Q=[{a:3,b:2,c:1,d:8},{a:5,b:2,c:2,d:7},{a:4,b:1,c:2,d:9},{a:6,b:-3,c:2,d:9},{a:7,b:4,c:3,d:-8},{a:5,b:-6,c:2,d:3},{a:8,b:5,c:3,d:25},{k:3,p:2,c:1,d:10},{k:3,p:-1,c:1,d:7},{k:4,p:2,c:2,d:11},{a:9,b:4,c:4,d:19},{a:6,b:-5,c:1,d:15},{a:5,b:7,c:2,d:-2},{a:4,b:-9,c:1,d:-3},{a:7,b:1,c:2,d:8},{a:8,b:-7,c:5,d:-1},{k:2,p:-3,c:1,d:1},{k:5,p:1,c:2,d:11},{k:4,p:-2,c:2,d:6},{k:6,p:1,c:2,d:9}];
+Q.forEach(x=>{if(x.k){x.a=x.k;x.b=x.k*x.p}});const N=Q.length;
+const DEM=["👹","👺","😈","👻","🧛","🦇","🐉","👾","🕷️","💀","🧟","🦂","🐺","🦈","🐍","🦖","🐙","🤖","🎃","👑"];
+const OKS=["Yes, dat is raak! 🔥","Perfect! Je bent een echte Hunter ✨","Wow, strak gedaan! 🎤","Boem! Demon geraakt 💥","Lekker bezig, superster! 🌟"];
+const TRY=["Bijna! Elke poging maakt je sterker 💪 Probeer ’t nog eens.","Goed geprobeerd! Kijk nog even naar het stappenplan 👀","Geen zorgen, zelfs sterren oefenen eerst. Nog een keer! ✨","Je zit dicht in de buurt! Je krijgt sowieso punten voor het proberen 🎶"];
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const f=n=>n<0?"−"+(-n):""+n, cf=n=>n==1?"":f(n), sg=n=>n<0?"−":"+";
+const side=(c,d)=>cf(c)+"x"+(d?" "+sg(d)+" "+Math.abs(d):"");
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+function fr(n,m){if(m<0){n=-n;m=-m}const g=gcd(n,m)||1;n/=g;m/=g;if(m==1)return f(n);let t=f(n)+"/"+m;if(Math.abs(n)>m){const w=Math.floor(Math.abs(n)/m),r=Math.abs(n)%m;t+=" (= "+(n<0?"−":"")+w+" "+r+"/"+m+")"}return t}
+const shuf=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+let S={screen:"start",qi:0,st:1,xp:0,streak:0,lines:[],help:0,fb:null,opts:null,wrong:[],clear:false,hit:false,solved:0};
+const q=()=>Q[S.qi];
+function startQ(){const x=q();S.st=x.k?0:1;S.help=0;S.fb=null;S.opts=null;S.wrong=[];S.clear=false;
+ S.lines=[(x.k?x.k+"(x "+sg(x.p)+" "+Math.abs(x.p)+")":side(x.a,x.b))+" = "+side(x.c,x.d)];S.screen="play";render()}
+function opts(){if(S.opts)return S.opts;const{a,b,c,d,k,p}=q();let o;
+ if(S.st==0)o=[side(a,b),side(k,p),side(k,-b)];
+ else if(S.st==1)o=[(c>0?"−":"+")+" "+cf(Math.abs(c))+"x",(c>0?"+":"−")+" "+cf(Math.abs(c))+"x",(a>0?"−":"+")+" "+cf(Math.abs(a))+"x"];
+ else if(S.st==2)o=[(b>0?"−":"+")+" "+Math.abs(b),(b>0?"+":"−")+" "+Math.abs(b),(d>0?"−":"+")+" "+Math.abs(d)];
+ else if(S.st==4){const n=d-b,m=a-c;o=[fr(n,m),fr(-n,m)];const alt=[n?fr(m,n):null,fr(n,m+1),fr(n+1,m),fr(2*n,m)];for(const t of alt){if(t&&!o.includes(t)){o.push(t);break}}}
+ else o=[];
+ S.corr=0;const c0=o[0];S.opts=shuf(o);S.corr=S.opts.indexOf(c0);return S.opts}
+function prompt(){const{a,b,c,d,k,p}=q(),m=a-c;return[
+ "<b>Stap 1</b> · Werk de haakjes weg. Vermenigvuldig het getal voor de haakjes met alles erin. Wat wordt de linkerkant?",
+ "<b>Stap 2</b> · De x-termen moeten naar links. Wat doe je aan <b>beide kanten</b>?",
+ "<b>Stap 3</b> · De getallen zonder x moeten naar rechts. Wat doe je aan <b>beide kanten</b>?",
+ "<b>Stap 4</b> · Herleid beide leden. Vul in:",
+ "<b>Stap 5</b> · Deel beide kanten door <b>"+m+"</b> om de x vrij te krijgen. Wat is x?"][S.st]}
+function hint(){const{a,b,c,d,k,p}=q(),n=d-b,m=a-c;
+ const H=[["Tip: haakjes weghalen = het getal ervoor keer álles tussen de haakjes.","Dus "+k+" × x = "+cf(k)+"x en "+k+" × "+f(p)+" = "+f(b)+". Het antwoord is "+side(a,b)+" ✅"],
+ ["Tip: je wilt alle x’en links. Haal de x-term van rechts weg met het tegenovergestelde (plus ↔ min).","Rechts staat "+cf(c)+"x, dus doe aan beide kanten "+(c>0?"−":"+")+" "+cf(Math.abs(c))+"x ✅"],
+ ["Tip: haal het losse getal links weg met het tegenovergestelde.","Links staat "+(b>0?"+":"−")+" "+Math.abs(b)+", dus doe aan beide kanten "+(b>0?"−":"+")+" "+Math.abs(b)+" ✅"],
+ ["Tip: links staan twee x-termen: "+cf(a)+"x "+(c>0?"−":"+")+" "+cf(Math.abs(c))+"x. Reken ze samen uit. Rechts reken je "+f(d)+" "+(b>0?"−":"+")+" "+Math.abs(b)+" uit.","Links: "+a+" − "+f(c)+" = "+m+". Rechts: "+f(d)+" − "+f(b)+" = "+f(n)+". Dus "+cf(m)+"x = "+f(n)+" ✅"],
+ ["Tip: "+cf(m)+"x = "+f(n)+" betekent "+m+" × x = "+f(n)+". Delen is het omgekeerde van keer.","x = "+f(n)+" ÷ "+m+" = "+fr(n,m)+" ✅"]];return H[S.st]}
+function nextLine(){const{a,b,c,d}=q();return[
+ side(a,b)+" = "+side(c,d),
+ side(a,b)+" "+(c>0?"−":"+")+" "+cf(Math.abs(c))+"x = "+f(d),
+ cf(a)+"x "+(c>0?"−":"+")+" "+cf(Math.abs(c))+"x = "+f(d)+" "+(b>0?"−":"+")+" "+Math.abs(b),
+ cf(a-c)+"x = "+f(d-b),
+ "x = "+fr(d-b,a-c)][S.st]}
+function good(bonus,viaHelp){S.xp+=bonus;S.streak=viaHelp?S.streak:S.streak+1;S.solved++;S.lines.push(nextLine());S.hit=true;S.st++;S.help=0;S.opts=null;S.wrong=[];
+ S.clear=S.st>4;S.fb={t:"ok",m:viaHelp?"Top dat je hulp vroeg, dát is slim leren! +"+bonus+" ⭐ Op naar de volgende stap.":rnd(OKS)+" +"+bonus+" ⭐"};
+ if(!viaHelp)boom(S.clear?40:12);render();S.hit=false}
+function pick(i){if(i==S.corr)return good(10);S.wrong.push(i);S.xp+=2;S.streak=0;S.fb={t:"try",m:rnd(TRY)+" (+2 ⭐ voor het proberen)"};render()}
+function submit(){const v=[...document.querySelectorAll(".inp input")].map(e=>Number(e.value.replace("−","-").replace(",",".")));const{a,b,c,d}=q();
+ const ok=document.querySelector(".inp input").value!==""&&document.querySelectorAll(".inp input")[1].value!==""&&v[0]==a-c&&v[1]==d-b;
+ if(ok)return good(10);S.xp+=2;S.streak=0;S.fb={t:"try",m:rnd(TRY)+" (+2 ⭐ voor het proberen)"};render()}
+function help(){S.help++;if(S.help>=2){const t=hint()[1];good(5,true);S.fb={t:"hp2",m:"🆘 Coach Mira laat zien: "+t+" +5 ⭐"};render();return}
+ S.fb={t:"hp2",m:"🆘 Coach Mira: "+hint()[0]+" Nog hulp nodig? Tik nog eens op de hulplijn, dan laat ik de stap zien."};render()}
+function boom(n){const e=["✨","💖","⭐","🎶","💜","🔥"];for(let i=0;i<n;i++){const s=document.createElement("span");s.className="c";s.textContent=rnd(e);s.style.left=Math.random()*100+"vw";s.style.animationDelay=Math.random()*.5+"s";document.body.appendChild(s);setTimeout(()=>s.remove(),2500)}}
+function nextQ(){if(S.qi>=N-1){S.screen="end";render();boom(60)}else{S.qi++;startQ()}}
+function render(){const A=document.getElementById("app");
+ if(S.screen=="start"){A.innerHTML=`<div class="center" style="padding-top:30px"><div class="big">🎤👹</div><h1 style="font-size:30px;color:var(--pink);text-shadow:0 0 20px var(--pink)">NEON HUNTERS</h1><p class="bg" style="color:var(--cyan);font-size:15px;margin:6px 0 14px">Lineaire vergelijkingen</p>
+ <div class="card sub" style="text-align:left">De Glitch-demonen stelen de beat van de stad! 🎶 Alleen jij kunt hem terugwinnen door vergelijkingen op te lossen, stap voor stap.<br><br>✨ Dit is <b>geen toets</b>: je kunt niet verliezen.<br>⭐ Je krijgt altijd punten, ook als je ’t nog niet goed hebt.<br>🆘 Hulplijn nodig? Coach Mira helpt je altijd.</div>
+ <button class="btn" onclick="startQ()">START DE JACHT</button></div>`;return}
+ if(S.screen=="end"){const r=S.xp>=700?"Superster ⭐":S.xp>=450?"Hunter Elite 🔥":"Rising Hunter 🎶";
+ A.innerHTML=`<div class="center" style="padding-top:30px"><div class="big">🏆</div><h1 style="font-size:26px;color:var(--yel)">BEAT TERUGGEWONNEN!</h1><div class="card"><p class="bg" style="font-size:22px;color:var(--cyan)">${r}</p><p class="sub">Je hebt alle ${N} demonen verslagen en <b style="color:var(--yel)">${S.xp} ⭐</b> verdiend.<br>Je kunt nu lineaire vergelijkingen oplossen met het 5-stappenplan. Trots op je! 💖</p></div><button class="btn" onclick="S={screen:'start',qi:0,st:1,xp:0,streak:0,lines:[],help:0,fb:null,opts:null,wrong:[],clear:false,hit:false,solved:0};render()">OPNIEUW SPELEN</button></div>`;return}
+ const names=["Haakjes","X naar links","Getal naar rechts","Herleid","Delen"];const hasH=!!q().k;
+ let h=`<div class="top"><span class="pill">🎯 ${S.qi+1}/${N}</span><span class="pill">🔥 ${S.streak}</span><span class="pill">⭐ ${S.xp}</span></div><div class="bar"><i style="width:${(S.qi+(S.clear?1:0))*100/N}%"></i></div>`;
+ h+=`<div class="steps">`+names.map((n,i)=>`<div class="${i<S.st?"dn":i==S.st&&!S.clear?"on":""}">${i+1}<br>${n}</div>`).join("")+`</div>`;
+ const left=Math.max(0,5-(S.st-(hasH?0:0)));
+ h+=`<div class="card demon ${S.hit?"hit":""}"><div class="e">${S.clear?"💫":DEM[S.qi]}</div><div class="hp"><small>${S.clear?"Demon verslagen!":"Glitch-demon"}</small><div class="segs">${[0,1,2,3,4].map(i=>`<i class="${i<S.st?"x":""}"></i>`).join("")}</div></div></div>`;
+ h+=`<div class="card board">${S.lines.map(l=>`<div class="ln">${l}</div>`).join("")}</div>`;
+ if(!hasH&&S.st==1&&S.lines.length==1)h+=`<div class="sub" style="font-size:13px;text-align:center">Stap 1 mag je overslaan: geen haakjes of breuken ✓</div>`;
+ if(S.clear){h+=`<div class="card center"><p class="bg" style="color:var(--ok)">x = ${fr(q().d-q().b,q().a-q().c)}</p><p class="sub">Controle: vul dit in bij de eerste vergelijking en kijk of links en rechts hetzelfde zijn 😉</p></div>`}
+ else{h+=`<div class="card"><div class="q">${prompt()}</div>`;
+  if(S.st==3){h+=`<div class="inp"><input id="i1" inputmode="text" placeholder="?"> x = <input id="i2" inputmode="text" placeholder="?"></div><div class="row"><button class="btn g" onclick="help()">🆘 Hulplijn</button><button class="btn" onclick="submit()">CHECK</button></div>`}
+  else{h+=opts().map((o,i)=>`<button class="opt ${S.wrong.includes(i)?"no":""}" onclick="pick(${i})" ${S.wrong.includes(i)?"disabled":""}>${S.st==4?"x = ":(S.st==0?"":"")}${o}</button>`).join("")+`<div class="row"><button class="btn g" onclick="help()">🆘 Hulplijn</button></div>`}
+  h+=`</div>`}
+ if(S.fb)h+=`<div class="fb ${S.fb.t}">${S.fb.m}</div>`;
+ if(S.clear)h+=`<div class="row" style="justify-content:center"><button class="btn" onclick="nextQ()">${S.qi>=N-1?"NAAR DE FINALE 🏆":"VOLGENDE DEMON →"}</button></div>`;
+ A.innerHTML=h}
+render();
+</script>
+</body>
+</html>
